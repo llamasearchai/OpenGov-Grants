@@ -1,0 +1,224 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "OpenGov-Grants"
+version = "1.0.0"
+description = "Comprehensive grant management and fiscal administration system for city governments managing federal, state, and foundation funding opportunities"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Nik Jois", email = "nikjois@llamasearch.ai"}
+]
+keywords = ["opengov", "grants", "government", "ai", "automation"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "typer>=0.12.0",
+    "rich>=13.0.0",
+    "questionary>=2.0.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "sqlite-utils>=3.0.0",
+    "datasette>=0.65.0",
+    "openai>=1.0.0",
+    "ollama>=0.2.0",
+    "llm>=0.13.0",
+    "llm-cmd>=0.1a0",
+    "llm-ollama>=0.1.0",
+    "httpx>=0.25.0",
+    "structlog>=23.0.0",
+    "python-dotenv>=1.0.0",
+    "toml>=0.10.0",
+    "pyyaml>=6.0.0",
+    "click>=8.0.0",
+    "uvloop>=0.18.0; sys_platform != 'win32'",
+    "aiofiles>=23.0.0",
+    "alembic>=1.12.0",
+    "tenacity>=8.0.0",
+    "python-multipart>=0.0.6",
+    "jinja2>=3.1.0",
+    "markdown>=3.5.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.15.0",
+    "requests>=2.31.0",
+    "aiohttp>=3.9.0",
+    "passlib[bcrypt]>=1.7.4",
+    "python-jose[cryptography]>=3.3.0",
+    "sqlalchemy>=2.0.0",
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "python-multipart>=0.0.6",
+    "aiofiles>=23.0.0",
+    "jinja2>=3.1.0",
+]
+
+[project.optional-dependencies]
+web = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "python-multipart>=0.0.6",
+    "aiofiles>=23.0.0",
+    "jinja2>=3.1.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.11.0",
+    "pytest-xdist>=3.3.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.3.0",
+    "tox>=4.6.0",
+    "coverage[toml]>=7.3.0",
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.1.0",
+    "mkdocstrings>=0.22.0",
+    "mkdocstrings-python>=1.6.0",
+    "jupyter>=1.0.0",
+    "ipykernel>=6.25.0",
+    "notebook>=7.0.0",
+    "jupyterlab>=4.0.0",
+]
+test = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.11.0",
+    "pytest-xdist>=3.3.0",
+    "coverage[toml]>=7.3.0",
+    "httpx>=0.25.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.1.0",
+    "mkdocstrings>=0.22.0",
+    "mkdocstrings-python>=1.6.0",
+]
+
+[project.scripts]
+opengov-grants = "opengovgrants.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/llamasearchai/OpenGov-Grants"
+Documentation = "https://llamasearchai.github.io/OpenGov-Grants"
+Repository = "https://github.com/llamasearchai/OpenGov-Grants"
+Issues = "https://github.com/llamasearchai/OpenGov-Grants/issues"
+Changelog = "https://github.com/llamasearchai/OpenGov-Grants/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/opengovgrants"]
+
+[tool.hatch.envs.default]
+python = "3.11"
+features = ["dev"]
+
+[tool.hatch.envs.test]
+python = "3.11"
+features = ["test"]
+extra-dependencies = ["coverage[toml]>=7.3.0"]
+
+[tool.hatch.envs.docs]
+python = "3.11"
+features = ["docs"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = ["E", "F", "I", "N", "B", "C4", "UP", "SIM"]
+ignore = ["E501", "B008", "C901", "SIM108"]
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+    "--tb=short",
+    "--cov=opengovgrants",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml",
+    "--cov-fail-under=9",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["opengovgrants"]
+branch = true
+parallel = true
+
+[tool.coverage.report]
+target-version = ['py311']
+include = ["*.py", "*.pyi"]
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
